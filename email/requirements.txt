@@ -1,0 +1,2 @@
+requests>=2.31.0
+# smtplib + email.message are in the Python stdlib; no extra deps for Gmail SMTP.
