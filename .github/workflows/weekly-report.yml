@@ -1,0 +1,74 @@
+name: Weekly report
+
+# Runs every Friday at 08:00 Asia/Shanghai (Friday 00:00 UTC).
+# Reads the last 7 days of warnings, renders the email, and sends it.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#
+#   Either (recommended if FROM is a Gmail address):
+#     GMAIL_ADDRESS          your full Gmail address, e.g. chatchatjune@gmail.com
+#     GMAIL_APP_PASSWORD     16-char App Password (NOT your Gmail password)
+#                           Create at https://myaccount.google.com/apppasswords
+#                           Requires 2-Step Verification to be on first.
+#
+#   Or (fallback via Resend):
+#     RESEND_API_KEY         resend.com API key
+#
+#   Both paths:
+#     EMAIL_FROM             e.g. "Weather Bot <chatchatjune@gmail.com>"
+#                            (must match the verified address for the chosen backend)
+#     EMAIL_TO               comma-separated, e.g. "june.shao@disney.com"
+
+on:
+  schedule:
+    - cron: "0 0 * * 5"  # 00:00 UTC on Friday == 08:00 Asia/Shanghai
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r email/requirements.txt
+
+      - name: Render email preview (debug artifact)
+        run: |
+          mkdir -p out
+          python email/send_email.py --render
+          cp email/preview.html out/email-preview.html
+
+      - name: Send weekly report
+        env:
+          # Gmail SMTP (preferred)
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          # Resend (fallback)
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          # Common
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+        run: python email/send_email.py
+        # Don't fail the whole run just because sending hiccuped —
+        # the preview artifact is still useful for debugging.
+        continue-on-error: true
+
+      - name: Upload preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: email-preview
+          path: out/email-preview.html
+          if-no-files-found: ignore
