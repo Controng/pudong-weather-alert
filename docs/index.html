@@ -16,6 +16,7 @@
       <div class="topbar__meta">
         <span id="lastUpdated" class="muted">—</span>
         <a class="topbar__link" href="data/warnings.json" target="_blank" rel="noopener">原始 JSON</a>
+        <button id="editToggle" class="btn btn--edit" title="进入编辑模式">✏️ 编辑</button>
       </div>
     </div>
   </header>
@@ -40,6 +41,16 @@
         <div class="tile__label">预警类型</div>
       </div>
     </section>
+
+    <!-- Edit-mode banner -->
+    <div id="editBanner" class="edit-banner hidden">
+      <span>✏️ <strong>编辑模式</strong> — 你对数据的修改只保存在浏览器，导出后需要手动上传到 GitHub 才会影响下周的邮件总结。</span>
+      <div class="edit-banner__actions">
+        <button id="exportBtn" class="btn btn--primary">💾 保存并导出</button>
+        <button id="resetBtn" class="btn">🔄 恢复原始</button>
+        <button id="exitEditBtn" class="btn btn--ghost">退出编辑</button>
+      </div>
+    </div>
 
     <!-- Calendar -->
     <section class="section">
@@ -80,6 +91,7 @@
             <option value="浦东新区">仅浦东新区</option>
             <option value="">全部区域</option>
           </select>
+          <button id="addBtn" class="btn btn--primary hidden">➕ 添加预警</button>
         </div>
       </div>
       <div class="table__wrap">
@@ -93,10 +105,11 @@
               <th>类型</th>
               <th>区域</th>
               <th>详情</th>
+              <th class="hidden edit-only">操作</th>
             </tr>
           </thead>
           <tbody id="rawTableBody">
-            <tr><td colspan="7" class="muted center">加载中…</td></tr>
+            <tr><td colspan="8" class="muted center">加载中…</td></tr>
           </tbody>
         </table>
       </div>
@@ -110,6 +123,91 @@
       · 由 GitHub Actions 自动每天抓取
     </p>
   </footer>
+
+  <!-- Edit form modal -->
+  <div id="editModal" class="modal hidden">
+    <div class="modal__backdrop" data-close-modal></div>
+    <div class="modal__card">
+      <div class="modal__head">
+        <h3 id="editModalTitle">编辑预警</h3>
+        <button class="btn btn--ghost" data-close-modal>✕</button>
+      </div>
+      <form id="editForm" class="modal__body">
+        <div class="form__row">
+          <label>类型</label>
+          <select name="warning_type" class="input" required>
+            <option>高温</option><option>暴雨</option><option>雷电</option><option>台风</option>
+            <option>寒潮</option><option>暴雪</option><option>大雾</option><option>大风</option>
+            <option>冰雹</option><option>干旱</option><option>霾</option><option>森林火险</option>
+            <option>霜冻</option><option>道路结冰</option><option>沙尘暴</option>
+          </select>
+        </div>
+        <div class="form__row">
+          <label>级别</label>
+          <select name="level" class="input" required>
+            <option>橙色</option><option>红色</option><option>黄色</option><option>蓝色</option>
+          </select>
+        </div>
+        <div class="form__row">
+          <label>区域</label>
+          <input name="area" class="input" value="浦东新区" required />
+        </div>
+        <div class="form__row form__row--two">
+          <div>
+            <label>Date from</label>
+            <input name="date_from" type="date" class="input" required />
+          </div>
+          <div>
+            <label>Date to</label>
+            <input name="date_to" type="date" class="input" required />
+          </div>
+        </div>
+        <div class="form__row">
+          <label>发布时间</label>
+          <input name="published_at" type="datetime-local" class="input" required />
+        </div>
+        <div class="form__row">
+          <label>详情</label>
+          <textarea name="description" class="input" rows="3" required></textarea>
+        </div>
+        <div class="modal__foot">
+          <button type="button" class="btn" data-close-modal>取消</button>
+          <button type="submit" class="btn btn--primary">💾 保存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Export modal -->
+  <div id="exportModal" class="modal hidden">
+    <div class="modal__backdrop" data-close-modal></div>
+    <div class="modal__card modal__card--wide">
+      <div class="modal__head">
+        <h3>导出修改后的 JSON</h3>
+        <button class="btn btn--ghost" data-close-modal>✕</button>
+      </div>
+      <div class="modal__body">
+        <p class="muted small">把下面这段 JSON <strong>覆盖</strong>到 GitHub 仓库的 <code>data/warnings.json</code> 文件里，commit 后 GitHub Actions 会在 1-2 分钟内重新部署 H5，并且<strong>下一封邮件（周五早上 8 点）会自动用这份新数据</strong>。</p>
+        <div class="export__buttons">
+          <button id="copyBtn" class="btn btn--primary">📋 复制到剪贴板</button>
+          <button id="downloadBtn" class="btn">⬇️ 下载 warnings.json</button>
+          <a id="openGitHubBtn" class="btn" target="_blank" rel="noopener">🔗 打开 GitHub 编辑页</a>
+        </div>
+        <textarea id="exportText" class="export__textarea" readonly></textarea>
+        <details class="muted small">
+          <summary>看不到上面的链接？直接手动上传：</summary>
+          <ol>
+            <li>打开你的 GitHub 仓库页面</li>
+            <li>点开 <code>data/warnings.json</code></li>
+            <li>右上角铅笔图标 ✏️ 进入编辑</li>
+            <li>全选（Ctrl/Cmd+A）→ 删掉所有内容</li>
+            <li>粘贴刚才复制的 JSON</li>
+            <li>滚到底部 → <strong>Commit changes</strong></li>
+          </ol>
+        </details>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
