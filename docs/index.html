@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>浦东新区橙红天气预警</title>
+  <title>浦东新区天气预警 · 月报</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -11,7 +11,7 @@
     <div class="topbar__inner">
       <div class="brand">
         <span class="brand__dot"></span>
-        <h1>浦东新区橙红天气预警</h1>
+        <h1>浦东新区天气预警 · 月报</h1>
       </div>
       <div class="topbar__meta">
         <div class="meta-stack">
@@ -33,21 +33,27 @@
   <main class="main">
     <!-- Summary tiles -->
     <section class="summary" id="summary">
-      <div class="tile tile--red">
-        <div class="tile__count" id="cntRed">0</div>
-        <div class="tile__label">红色预警</div>
+      <div class="summary__header">
+        <span class="summary__title">本月预警统计</span>
+        <span class="summary__month" id="summaryMonth">—</span>
       </div>
-      <div class="tile tile--orange">
-        <div class="tile__count" id="cntOrange">0</div>
-        <div class="tile__label">橙色预警</div>
-      </div>
-      <div class="tile tile--days">
-        <div class="tile__count" id="cntDays">0</div>
-        <div class="tile__label">覆盖天数</div>
-      </div>
-      <div class="tile tile--types">
-        <div class="tile__count" id="cntTypes">0</div>
-        <div class="tile__label">预警类型</div>
+      <div class="tiles">
+        <div class="tile tile--red">
+          <div class="tile__count" id="cntRed">0</div>
+          <div class="tile__label">红色预警</div>
+        </div>
+        <div class="tile tile--orange">
+          <div class="tile__count" id="cntOrange">0</div>
+          <div class="tile__label">橙色预警</div>
+        </div>
+        <div class="tile tile--days">
+          <div class="tile__count" id="cntDays">0</div>
+          <div class="tile__label">覆盖天数</div>
+        </div>
+        <div class="tile tile--types">
+          <div class="tile__count" id="cntTypes">0</div>
+          <div class="tile__label">预警类型</div>
+        </div>
       </div>
     </section>
 
@@ -73,7 +79,10 @@
         </div>
       </div>
       <div id="calendar" class="calendar" role="grid"></div>
-      <p class="muted small">单元格颜色: <span class="dot dot--red"></span>红色 &nbsp;<span class="dot dot--orange"></span>橙色 &nbsp;<span class="dot dot--mix"></span>当日多条 / 多类型。点击单元格查看详情。</p>
+      <p class="muted small">
+        单元格背景按 <strong>预警类型</strong> 配色；多种类型时对角线渐变分割。
+        悬停 <span class="dot dot--red"></span> <span class="dot dot--orange"></span> <span class="dot dot--yellow"></span> <span class="dot dot--blue"></span> 标签看官方定义。
+      </p>
     </section>
 
     <!-- Detail panel -->
@@ -91,13 +100,7 @@
         <h2>原始数据</h2>
         <div class="table__controls">
           <input id="search" class="input" type="search" placeholder="搜索类型 / 描述…" />
-          <select id="levelFilter" class="input">
-            <option value="orange_red" selected>仅橙红（默认）</option>
-            <option value="红色">仅红色</option>
-            <option value="橙色">仅橙色</option>
-            <option value="黄色">仅黄色</option>
-            <option value="">全部级别（含蓝黄）</option>
-          </select>
+          <div id="levelFilter" class="level-filter" data-tip-anchor></div>
           <button id="addBtn" class="btn btn--primary hidden">➕ 添加预警</button>
         </div>
       </div>
