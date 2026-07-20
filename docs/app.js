@@ -119,11 +119,17 @@
   }
 
   // ---------- filters ----------
+  function isOrangeRed(level) { return level === "橙色" || level === "红色"; }
   function applyFilters() {
     const q = ($("#search").value || "").trim().toLowerCase();
     const level = $("#levelFilter").value;
     return working.filter((w) => {
-      if (level && w.level !== level) return false;
+      // "orange_red" is the special "default" filter (orange + red only)
+      if (level === "orange_red") {
+        if (!isOrangeRed(w.level)) return false;
+      } else if (level) {
+        if (w.level !== level) return false;
+      }
       if (q) {
         const hay = `${w.warning_type} ${w.description} ${w.headline}`.toLowerCase();
         if (!hay.includes(q)) return false;
@@ -150,7 +156,9 @@
     const startDay = first.getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    const map = new Map();
+    // Build the day map from whatever the filter passes in. So when the user
+    // switches to "仅黄色" or "全部", those days do appear as warnings.
+    const dayMap = new Map();
     for (const w of filtered) {
       const from = w.date_from?.slice(0, 10);
       const to = w.date_to?.slice(0, 10) || from;
@@ -159,8 +167,8 @@
       const end = new Date(to);
       while (cur <= end) {
         const k = dateKey(cur);
-        if (!map.has(k)) map.set(k, []);
-        map.get(k).push(w);
+        if (!dayMap.has(k)) dayMap.set(k, []);
+        dayMap.get(k).push(w);
         cur.setDate(cur.getDate() + 1);
       }
     }
@@ -182,28 +190,36 @@
     for (let d = 1; d <= daysInMonth; d++) {
       const date = new Date(year, month, d);
       const k = dateKey(date);
-      const ws = map.get(k) || [];
+      const ws = dayMap.get(k) || [];
       const cell = document.createElement("div");
       cell.className = "calendar__cell";
       if (k === today) cell.classList.add("calendar__cell--today");
 
       if (ws.length) {
         cell.classList.add("calendar__cell--has-warning");
-        const levels = new Set(ws.map((w) => w.level));
-        if (levels.has("红色") && levels.has("橙色")) {
+        // Cell background ONLY uses 橙红 — the most actionable signal.
+        // 黄色/蓝色 never paint the cell, so the default view stays clean.
+        const alertLevels = ws.filter((w) => isOrangeRed(w.level)).map((w) => w.level);
+        if (alertLevels.includes("红色") && alertLevels.includes("橙色")) {
           cell.classList.add("cell-bg--mix");
-        } else if (levels.has("红色")) {
+        } else if (alertLevels.includes("红色")) {
           cell.classList.add("cell-bg--red");
-        } else {
+        } else if (alertLevels.includes("橙色")) {
           cell.classList.add("cell-bg--orange");
+        } else {
+          // Only 黄色/蓝色 warnings → no colored background, just a chip.
+          cell.classList.add("cell-bg--neutral");
         }
-        // Show up to 2 distinct type chips, with icon
+        // Chips: show everything the filter is currently showing.
         const types = [...new Set(ws.map((w) => w.warning_type))];
         const chipsHtml = types
           .slice(0, 2)
           .map((t) => {
-            const hasRed = ws.some((w) => w.warning_type === t && w.level === "红色");
-            const cls = hasRed ? "chip--red" : "chip--orange";
+            const lvls = ws.filter((w) => w.warning_type === t).map((w) => w.level);
+            const cls = lvls.includes("红色") ? "chip--red"
+              : lvls.includes("橙色") ? "chip--orange"
+              : lvls.includes("黄色") ? "chip--yellow"
+              : "chip--blue";
             return `<span class="calendar__chip ${cls}"><span class="type-icon">${typeIcon(t)}</span>${escapeHtml(t)}</span>`;
           })
           .join("");

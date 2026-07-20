@@ -229,9 +229,12 @@ code { background: #f0f0f3; padding: 1px 5px; border-radius: 3px; font-size: 12p
 }
 .chip--red { background: var(--red); }
 .chip--orange { background: var(--orange); }
+.chip--yellow { background: #fbc02d; color: #333; }
+.chip--blue { background: var(--blue); }
 .chip--more { background: #6b7280; }
 .cell-bg--red { background: var(--red-soft) !important; }
 .cell-bg--orange { background: var(--orange-soft) !important; }
+.cell-bg--neutral { background: #f3f4f6 !important; }
 .cell-bg--mix {
   background: linear-gradient(135deg, var(--red-soft) 0%, var(--red-soft) 50%, var(--orange-soft) 50%, var(--orange-soft) 100%) !important;
 }
