@@ -5,6 +5,7 @@
   "use strict";
 
   const DATA_URL = "data/warnings.json";
+  const META_URL = "data/_meta.json";
   const LS_KEY = "pudong-weather-alert:edited-data";
   const WEEKDAYS = ["日", "一", "二", "三", "四", "五", "六"];
   const REPO_RAW_URL = "https://github.com/Controng/pudong-weather-alert/edit/main/data/warnings.json";
@@ -32,6 +33,7 @@
 
   // ---------- state ----------
   /** @type {Array<object>} */ let original = [];   // last loaded from server
+  /** @type {object} */ let meta = {};              // last loaded from _meta.json
   /** @type {Array<object>} */ let working = [];     // current displayed (may = original or edited)
   let editMode = false;
   let filtered = [];
@@ -79,6 +81,11 @@
       console.error("[load] failed:", e);
       original = [];
     }
+    try {
+      const r2 = await fetch(META_URL, { cache: "no-store" });
+      if (r2.ok) meta = await r2.json();
+      else meta = {};
+    } catch (_) { meta = {}; }
     // If we have unsaved edits in localStorage, prefer them.
     const saved = loadEditedFromLS();
     working = saved || original.slice();
@@ -115,10 +122,8 @@
   function applyFilters() {
     const q = ($("#search").value || "").trim().toLowerCase();
     const level = $("#levelFilter").value;
-    const area = $("#areaFilter").value;
     return working.filter((w) => {
       if (level && w.level !== level) return false;
-      if (area && w.area !== area) return false;
       if (q) {
         const hay = `${w.warning_type} ${w.description} ${w.headline}`.toLowerCase();
         if (!hay.includes(q)) return false;
@@ -296,18 +301,34 @@
   }
 
   // ---------- meta ----------
+  function fmtDate(s) {
+    if (!s) return "—";
+    return s.slice(0, 16).replace("T", " ");
+  }
   function renderMeta() {
+    // 「页面更新」: from _meta.json's last_scraped
+    const scraped = meta.last_scraped;
+    $("#pageUpdated").textContent = scraped ? fmtDate(scraped) : "—";
+
+    // 「最新预警」: latest published_at in data
     if (!working.length) {
-      $("#lastUpdated").textContent = "暂无数据 · 等待 GitHub Actions 抓取";
-      return;
+      $("#lastUpdated").textContent = "暂无数据";
+    } else {
+      const latest = working
+        .map((w) => w.published_at ?? w.date_from ?? "")
+        .filter(Boolean)
+        .sort()
+        .pop();
+      $("#lastUpdated").textContent = fmtDate(latest);
     }
-    const latest = working
-      .map((w) => w.published_at ?? w.date_from ?? "")
-      .filter(Boolean)
-      .sort()
-      .pop();
-    const suffix = isDirty() ? " · ✏️ 本地有未导出的修改" : "";
-    $("#lastUpdated").textContent = `数据更新于 ${latest.slice(0, 16).replace("T", " ")}${suffix}`;
+    // Dirty hint
+    if (isDirty()) {
+      $("#lastUpdated").title = "本地有未导出的修改";
+      $("#lastUpdated").style.color = "var(--orange)";
+    } else {
+      $("#lastUpdated").title = "";
+      $("#lastUpdated").style.color = "";
+    }
   }
 
   // ---------- main render ----------
@@ -460,7 +481,6 @@
     $("#detailClose").addEventListener("click", () => $("#detailSection").classList.add("section--hidden"));
     $("#search").addEventListener("input", () => { filtered = applyFilters(); renderAll(); });
     $("#levelFilter").addEventListener("change", () => { filtered = applyFilters(); renderAll(); });
-    $("#areaFilter").addEventListener("change", () => { filtered = applyFilters(); renderAll(); });
 
     // Edit mode
     $("#editToggle").addEventListener("click", () => setEditMode(!editMode));
