@@ -44,12 +44,31 @@ jobs:
           cp data/warnings.json docs/data/warnings.json
           echo "now=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
+      - name: Write _meta.json (page-deployed timestamp)
+        run: |
+          mkdir -p docs/data
+          NOW_UTC=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          # ISO with Beijing (+08:00) for the user's convenience
+          NOW_BJ=$(TZ='Asia/Shanghai' date +%Y-%m-%dT%H:%M:%S+08:00)
+          LATEST=$(python3 -c "import json;d=json.load(open('data/warnings.json'));print(max([w.get('published_at','') for w in d] + ['']))")
+          cat > data/_meta.json <<EOF
+          {
+            "last_scraped": "${NOW_BJ}",
+            "last_scraped_utc": "${NOW_UTC}",
+            "last_published_in_data": "${LATEST}",
+            "scrape_run_id": "scrape-$(date -u +%Y%m%d-%H%M%S)",
+            "note": "last_scraped is updated by daily-scrape.yml on every GitHub Actions run. last_published_in_data is the most recent published_at in warnings.json."
+          }
+          EOF
+          cp data/_meta.json docs/data/_meta.json
+          cat data/_meta.json
+
       - name: Commit if changed
         run: |
           if [[ -n "$(git status --porcelain)" ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/warnings.json docs/data/warnings.json
+            git add data/warnings.json data/_meta.json docs/data/warnings.json docs/data/_meta.json
             git commit -m "chore(data): daily scrape update"
             git push
           else
