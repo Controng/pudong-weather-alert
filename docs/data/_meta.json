@@ -1,0 +1,6 @@
+{
+  "last_scraped": "2026-07-20T10:00:00+08:00",
+  "last_published_in_data": "2026-07-19T15:30",
+  "scrape_run_id": "v3.1-manual-2026-07-20",
+  "note": "last_scraped is updated by daily-scrape.yml on every GitHub Actions run. last_published_in_data is the most recent published_at in warnings.json."
+}
