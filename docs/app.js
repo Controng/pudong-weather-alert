@@ -15,47 +15,44 @@
   const WEEKDAYS = ["日", "一", "二", "三", "四", "五", "六"];
   const REPO_RAW_URL = "https://github.com/Controng/pudong-weather-alert/edit/main/data/warnings.json";
 
-  // ---- Type → color (per-type, used in cell stripes) ----
-  // TYPE_COLORS: saturated version (used for chips, badges, type icons)
-  // TYPE_COLORS_SOFT: pastel version (used as cell background — easier on eyes)
-  const TYPE_COLORS = {
-    "高温": "#e53935",
-    "暴雨": "#1e88e5",
-    "雷电": "#8e24aa",
-    "台风": "#00838f",
-    "寒潮": "#0288d1",
-    "暴雪": "#78909c",
-    "大雾": "#90a4ae",
-    "大风": "#43a047",
-    "冰雹": "#5e35b1",
+  // ---- Level → color (cell bg + chip bg) ----
+  // The 4 official CN warning levels each have a color. Cell background
+  // is a soft version; chips use a stronger version.
+  const LEVEL_COLORS_SOFT = {
+    "红色": "#ffebee",   // very light red
+    "橙色": "#fff3e0",   // light orange
+    "黄色": "#fffde7",   // light yellow
+    "蓝色": "#e3f2fd",   // light blue
+  };
+  const LEVEL_COLORS = {
+    "红色": "#c62828",   // dark red
+    "橙色": "#e65100",   // dark orange
+    "黄色": "#f57f17",   // dark amber
+    "蓝色": "#1565c0",   // dark blue
+  };
+  // ---- Type → color (only used for the small type icon next to the chip text) ----
+  // This is a SECONDARY visual cue — the primary color is the level.
+  const TYPE_ACCENT = {
+    "高温": "#e65100",
+    "暴雨": "#1565c0",
+    "雷电": "#6a1b9a",
+    "台风": "#00695c",
+    "寒潮": "#0277bd",
+    "暴雪": "#37474f",
+    "大雾": "#546e7a",
+    "大风": "#2e7d32",
+    "冰雹": "#4527a0",
     "干旱": "#bf360c",
-    "霾": "#616161",
-    "道路结冰": "#00bcd4",
-    "沙尘暴": "#e65100",
-    "森林火险": "#d32f2f",
-    "霜冻": "#4fc3f7",
-    "未知": "#9e9e9e",
+    "霾": "#424242",
+    "道路结冰": "#00838f",
+    "沙尘暴": "#bf360c",
+    "森林火险": "#c62828",
+    "霜冻": "#0277bd",
+    "未知": "#616161",
   };
-  const TYPE_COLORS_SOFT = {
-    "高温": "#ffcdd2",     // light red
-    "暴雨": "#bbdefb",     // light blue
-    "雷电": "#e1bee7",     // light purple
-    "台风": "#b2ebf2",     // light cyan
-    "寒潮": "#b3e5fc",     // light sky
-    "暴雪": "#cfd8dc",     // light blue grey
-    "大雾": "#cfd8dc",
-    "大风": "#c8e6c9",     // light green
-    "冰雹": "#d1c4e9",
-    "干旱": "#ffccbc",
-    "霾": "#e0e0e0",
-    "道路结冰": "#b2ebf2",
-    "沙尘暴": "#ffe0b2",
-    "森林火险": "#ffcdd2",
-    "霜冻": "#b3e5fc",
-    "未知": "#eeeeee",
-  };
-  const typeColor = (t) => TYPE_COLORS[t] || TYPE_COLORS["未知"];
-  const typeColorSoft = (t) => TYPE_COLORS_SOFT[t] || TYPE_COLORS_SOFT["未知"];
+  const levelSoft = (l) => LEVEL_COLORS_SOFT[l] || LEVEL_COLORS_SOFT["蓝色"];
+  const levelStrong = (l) => LEVEL_COLORS[l] || LEVEL_COLORS["蓝色"];
+  const typeAccent = (t) => TYPE_ACCENT[t] || TYPE_ACCENT["未知"];
   const typeIcon = (t) => {
     const m = {
       "高温": "🌡️", "暴雨": "🌧️", "雷电": "⚡", "台风": "🌀",
@@ -331,51 +328,54 @@
 
       if (ws.length) {
         cell.classList.add("calendar__cell--has-warning");
-        // Collect distinct types present on this day (preserve insertion order)
+        // Collect distinct types + highest level on this day
         const typesOnDay = [];
         const seen = new Set();
+        let highestLevel = "蓝色";
+        const order = { "红色": 4, "橙色": 3, "黄色": 2, "蓝色": 1 };
         for (const w of ws) {
           if (!seen.has(w.warning_type)) {
             seen.add(w.warning_type);
             typesOnDay.push(w.warning_type);
           }
+          if (order[w.level] > order[highestLevel]) highestLevel = w.level;
         }
-        // Build multi-color background gradient from distinct types (soft/pastel)
-        const segs = typesOnDay.slice(0, 4);
-        if (segs.length === 1) {
-          cell.style.background = typeColorSoft(segs[0]);
-          cell.classList.add("cell-solid");
+        // Cell background: soft version of the highest level's color
+        // Multi-type days with same level: still single soft color
+        // Multi-type days with mixed levels: subtle gradient between the level colors
+        const presentLevels = [...new Set(ws.map((w) => w.level))];
+        if (presentLevels.length === 1) {
+          cell.style.background = levelSoft(highestLevel);
         } else {
-          const stops = segs.map((t, i) => {
-            const start = (i / segs.length) * 100;
-            const end = ((i + 1) / segs.length) * 100;
-            return `${typeColorSoft(t)} ${start.toFixed(1)}% ${end.toFixed(1)}%`;
+          // soft vertical split between the distinct levels present
+          const stops = presentLevels.map((l, i) => {
+            const start = (i / presentLevels.length) * 100;
+            const end = ((i + 1) / presentLevels.length) * 100;
+            return `${levelSoft(l)} ${start.toFixed(1)}% ${end.toFixed(1)}%`;
           }).join(", ");
           cell.style.background = `linear-gradient(135deg, ${stops})`;
-          cell.classList.add("cell-multi");
         }
-        // Add a small left-edge color bar (saturated) so each type is still visually identifiable
-        const barStops = typesOnDay.slice(0, 4).map((t) => typeColor(t)).join(", ");
-        cell.style.borderLeft = typesOnDay.length > 0
-          ? `4px solid ${typesOnDay.length === 1 ? typesOnDay[0] && typeColor(typesOnDay[0]) : "transparent"}`
-          : "";
 
-        // Date number
+        // Date number (larger, bold)
         cell.innerHTML = `<div class="calendar__date">${d}</div>`;
-        // Type chips (only show if ≤ 3 to avoid clutter)
-        if (typesOnDay.length <= 3) {
-          const chips = typesOnDay.map((t) => {
-            const lvls = ws.filter((w) => w.warning_type === t).map((w) => w.level);
-            const lvl = lvls.includes("红色") ? "红色"
-                       : lvls.includes("橙色") ? "橙色"
-                       : lvls.includes("黄色") ? "黄色" : "蓝色";
-            return `<span class="calendar__chip chip--${lvl}"><span class="type-icon">${typeIcon(t)}</span>${escapeHtml(t)}</span>`;
-          }).join("");
-          cell.insertAdjacentHTML("beforeend", `<div class="calendar__chips">${chips}</div>`);
-        } else {
-          cell.insertAdjacentHTML("beforeend",
-            `<div class="calendar__chips"><span class="calendar__chip chip--more">+${typesOnDay.length} 类型</span></div>`);
-        }
+
+        // Type chips: show type icon + type name, colored by level (strong) but
+        // the TYPE ICON is also tinted by the type accent for extra cue.
+        // User said "字体放大" so chip text is slightly larger.
+        const chips = typesOnDay.slice(0, 4).map((t) => {
+          // Highest level for this specific type on this day
+          const lvls = ws.filter((w) => w.warning_type === t).map((w) => w.level);
+          const lvl = lvls.includes("红色") ? "红色"
+            : lvls.includes("橙色") ? "橙色"
+            : lvls.includes("黄色") ? "黄色" : "蓝色";
+          const lvlClass = lvl === "红色" ? "red" : lvl === "橙色" ? "orange" : lvl === "黄色" ? "yellow" : "blue";
+          return `<span class="calendar__chip chip--${lvlClass}" title="${escapeHtml(t)}${escapeHtml(lvl)}">
+            <span class="type-icon" style="color:#fff;">${typeIcon(t)}</span>
+            <span class="chip__type-name">${escapeHtml(t)}</span>
+          </span>`;
+        }).join("");
+        cell.insertAdjacentHTML("beforeend", `<div class="calendar__chips">${chips}</div>`);
+
         // Title: full list of types + levels for the day (browser native hover)
         const tipLines = ws.map((w) => `${w.warning_type}${w.level}`);
         cell.title = tipLines.join(" / ");
@@ -409,8 +409,8 @@
       return `
         <div class="detail-item detail-item--${levelClass}">
           <div class="detail-item__head">
-            <span class="badge badge--${levelClass}" style="border-left: 3px solid ${typeColor(w.warning_type)};">${escapeHtml(w.level)}</span>
-            <strong><span class="type-icon type-icon--lg" style="color: ${typeColor(w.warning_type)};">${typeIcon(w.warning_type)}</span> ${escapeHtml(w.warning_type)}</strong>
+            <span class="badge badge--${levelClass}" style="border-left: 3px solid ${levelStrong(w.level)};">${escapeHtml(w.level)}</span>
+            <strong><span class="type-icon type-icon--lg" style="color: ${typeAccent(w.warning_type)};">${typeIcon(w.warning_type)}</span> ${escapeHtml(w.warning_type)}</strong>
             <button type="button" class="info-icon info-icon--lg" data-tip="${escapeHtml(tip)}" aria-label="查看 ${escapeHtml(w.warning_type)}${escapeHtml(w.level)} 官方定义">ⓘ 定义</button>
             <span class="muted small">${escapeHtml(w.headline)}</span>
           </div>
@@ -455,9 +455,9 @@
           <td>${escapeHtml(w.date_from ?? "")}</td>
           <td>${escapeHtml(w.date_to ?? "")}</td>
           <td>${escapeHtml(w.published_at ?? "")}</td>
-          <td><span class="badge badge--${levelClass}" style="border-left: 3px solid ${typeColor(w.warning_type)}; padding-left: 6px;">${escapeHtml(w.level)}</span>
+          <td><span class="badge badge--${levelClass}" style="border-left: 3px solid ${levelStrong(w.level)}; padding-left: 6px;">${escapeHtml(w.level)}</span>
               <button type="button" class="info-icon" data-tip="${escapeHtml(tip)}" aria-label="查看 ${escapeHtml(w.warning_type)}${escapeHtml(w.level)} 官方定义">ⓘ</button></td>
-          <td><span class="type-icon" style="color: ${typeColor(w.warning_type)}">${typeIcon(w.warning_type)}</span> ${escapeHtml(w.warning_type)}</td>
+          <td><span class="type-icon" style="color: ${typeAccent(w.warning_type)}">${typeIcon(w.warning_type)}</span> ${escapeHtml(w.warning_type)}</td>
           <td>${escapeHtml(w.area ?? "")}</td>
           <td class="desc-cell">${escapeHtml(w.description ?? "")}</td>
           <td class="edit-only ${editMode ? "" : "hidden"} row-actions">${actions}</td>
