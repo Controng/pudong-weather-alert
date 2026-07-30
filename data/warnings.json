@@ -154,5 +154,44 @@
     "source": "primary",
     "source_url": "https://sh.weather.com.cn/zhyj/index.shtml",
     "raw_id": "浦东新区发布大风黄色预警|2026-07-19T15:30"
+  },
+  {
+    "headline": "浦东新区发布高温橙色预警",
+    "warning_type": "高温",
+    "level": "橙色",
+    "area": "浦东新区",
+    "published_at": "2026-07-30T08:01",
+    "date_from": "2026-07-30",
+    "date_to": "2026-07-31",
+    "description": "浦东新区气象台2026年07月30日08时01分发布高温橙色预警信号：预计本区大部分街镇今天的最高气温将超过37℃，请注意防范强高温对工农业生产、人体健康、大功率电气设备的不利影响，注意用火用电安全。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布高温橙色预警|2026-07-30T08:01"
+  },
+  {
+    "headline": "浦东新区发布雷电黄色预警",
+    "warning_type": "雷电",
+    "level": "黄色",
+    "area": "浦东新区",
+    "published_at": "2026-07-30T13:30",
+    "date_from": "2026-07-30",
+    "date_to": "2026-07-31",
+    "description": "浦东新区气象台2026年07月30日13时30分发布雷电黄色预警信号：预计今天半夜以前本区大部分街镇将发生雷电活动，可能会造成雷电灾害事故，请注意防范。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布雷电黄色预警|2026-07-30T13:30"
+  },
+  {
+    "headline": "浦东新区发布大风蓝色预警",
+    "warning_type": "大风",
+    "level": "蓝色",
+    "area": "浦东新区",
+    "published_at": "2026-07-30T13:58",
+    "date_from": "2026-07-30",
+    "date_to": "2026-07-31",
+    "description": "浦东新区气象台2026年07月30日13时58分发布大风蓝色预警信号：预计今天半夜以前本区大部分街镇将出现阵风7-9级的大风，请注意防范大风对高空作业、交通出行、设施农业等的不利影响。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布大风蓝色预警|2026-07-30T13:58"
   }
 ]
