@@ -176,7 +176,7 @@
   let calYear, calMonth;
   let editingRawId = null;
   // Multi-select state: Set of "红色"/"橙色"/"黄色"/"蓝色"
-  let levelFilterSet = new Set(["红色", "橙色"]);
+  let levelFilterSet = new Set(["红色", "橙色", "黄色", "蓝色"]);
   // Search term
   let searchTerm = "";
 
