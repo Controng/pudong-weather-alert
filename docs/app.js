@@ -441,10 +441,14 @@
       body.innerHTML = `<tr><td colspan="${cols}" class="muted center">暂无符合条件的预警记录。</td></tr>`;
       return;
     }
-    body.innerHTML = filtered.map((w) => {
-      const levelClass = w.level === "红色" ? "red"
-        : w.level === "橙色" ? "orange"
-        : w.level === "黄色" ? "yellow" : "blue";
+    const sorted = [...filtered].sort((a, b) =>
+  (b.published_at ?? b.date_from ?? "")
+    .localeCompare(a.published_at ?? a.date_from ?? "")
+);   // ← b 放前面 = 倒序
+body.innerHTML = sorted.map((w) => {
+  const levelClass = w.level === "红色" ? "red"
+    : w.level === "橙色" ? "orange"
+    : w.level === "黄色" ? "yellow" : "blue";
       const tip = getDefinition(w);
       const actions = editMode
         ? `<button class="btn btn--sm" data-action="edit" data-id="${escapeHtml(w.raw_id)}">编辑</button>
