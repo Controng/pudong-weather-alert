@@ -1,7 +1,7 @@
 {
-  "last_scraped": "2026-07-30T15:45:46+08:00",
-  "last_scraped_utc": "2026-07-30T07:45:46Z",
-  "last_published_in_data": "2026-07-30T13:58",
-  "scrape_run_id": "scrape-20260730-074546",
+  "last_scraped": "2026-07-31T09:49:13+08:00",
+  "last_scraped_utc": "2026-07-31T01:49:13Z",
+  "last_published_in_data": "2026-07-31T08:41",
+  "scrape_run_id": "scrape-20260731-014913",
   "note": "last_scraped is updated by daily-scrape.yml on every GitHub Actions run. last_published_in_data is the most recent published_at in warnings.json."
 }
