@@ -1,7 +1,7 @@
 {
-  "last_scraped": "2026-08-03T14:15:37+08:00",
-  "last_scraped_utc": "2026-08-03T06:15:37Z",
+  "last_scraped": "2026-08-03T14:39:38+08:00",
+  "last_scraped_utc": "2026-08-03T06:39:38Z",
   "last_published_in_data": "2026-08-03T08:38",
-  "scrape_run_id": "manual-2026-08-03-061537",
-  "note": "v6.3 2026-08-03: (1) app.js - default filter shows all 4 levels (蓝黄也显示), (2) app.js - table sort reverse (最新在最上), (3) caught 8/3 08:38 warning."
+  "scrape_run_id": "scrape-20260803-063938",
+  "note": "last_scraped is updated by daily-scrape.yml on every GitHub Actions run. last_published_in_data is the most recent published_at in warnings.json."
 }
