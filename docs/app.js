@@ -176,7 +176,8 @@
   let calYear, calMonth;
   let editingRawId = null;
   // Multi-select state: Set of "红色"/"橙色"/"黄色"/"蓝色"
-  let levelFilterSet = new Set(["红色", "橙色"]);
+  // Default: all 4 levels checked (用户要求蓝黄也默认显示)
+  let levelFilterSet = new Set(["红色", "橙色", "黄色", "蓝色"]);
   // Search term
   let searchTerm = "";
 
@@ -441,7 +442,12 @@
       body.innerHTML = `<tr><td colspan="${cols}" class="muted center">暂无符合条件的预警记录。</td></tr>`;
       return;
     }
-    body.innerHTML = filtered.map((w) => {
+    // 倒序：最新发布的预警排在最上面
+    const sorted = [...filtered].sort((a, b) =>
+      (b.published_at ?? b.date_from ?? "")
+        .localeCompare(a.published_at ?? a.date_from ?? "")
+    );
+    body.innerHTML = sorted.map((w) => {
       const levelClass = w.level === "红色" ? "red"
         : w.level === "橙色" ? "orange"
         : w.level === "黄色" ? "yellow" : "blue";
