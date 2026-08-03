@@ -336,5 +336,18 @@
     "source": "primary",
     "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
     "raw_id": "浦东新区更新高温橙色预警|2026-08-02T10:43"
+  },
+  {
+    "headline": "浦东新区发布高温橙色预警",
+    "warning_type": "高温",
+    "level": "橙色",
+    "area": "浦东新区",
+    "published_at": "2026-08-03T08:38",
+    "date_from": "2026-08-03",
+    "date_to": "2026-08-04",
+    "description": "浦东新区气象台2026年08月03日08时38分发布高温橙色预警信号：预计本区大部分街镇今天的最高气温将超过37℃，请注意防范强高温对工农业生产、人体健康、大功率电气设备的不利影响，注意用火用电安全。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布高温橙色预警|2026-08-03T08:38"
   }
 ]

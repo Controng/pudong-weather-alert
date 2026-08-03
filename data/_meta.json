@@ -1,7 +1,7 @@
 {
-  "last_scraped": "2026-08-02T11:37:27+08:00",
-  "last_scraped_utc": "2026-08-02T03:37:27Z",
-  "last_published_in_data": "2026-08-02T10:43",
-  "scrape_run_id": "manual-2026-08-02-033727",
-  "note": "Manual fix 2026-08-02: (1) headline bug fix (重复'浦东新区' → 干净格式), (2) backfilled 7/21 浦东数据 (5 条: 雷电/高温/大风/暴雨/暴雨更新) from 浦东气象 weibo, (3) caught 8/2 10:43 高温橙色 from live alarm.json."
+  "last_scraped": "2026-08-03T09:47:42+08:00",
+  "last_scraped_utc": "2026-08-03T01:47:42Z",
+  "last_published_in_data": "2026-08-03T08:38",
+  "scrape_run_id": "scrape-20260803-014742",
+  "note": "last_scraped is updated by daily-scrape.yml on every GitHub Actions run. last_published_in_data is the most recent published_at in warnings.json."
 }
