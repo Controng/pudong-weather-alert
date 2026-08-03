@@ -162,15 +162,11 @@ def fetch_primary() -> list[Warning]:
         if not content:
             continue
 
-        # Build headline
-        # Issuer (from content prefix or town)
-        m_issuer = re.match(r"^([^发]{2,15}(?:气象台|气象局))", content)
-        issuer = m_issuer.group(1) if m_issuer else "上海市浦东新区气象台"
+        # Build headline — always "{town}发布/更新{type}{level}预警"
         # status: '0' = new, '1' = updated from another level
-        if item.get("status") == "1" and "更新" in content:
-            headline = f"{town}{issuer.split('气象台')[0] if '气象台' in issuer else town}更新{warning_type}{level}预警"
-        else:
-            headline = f"{town}发布{warning_type}{level}预警"
+        is_update = item.get("status") == "1" and "更新" in content
+        action = "更新" if is_update else "发布"
+        headline = f"{town}{action}{warning_type}{level}预警"
 
         published_at = dt_bj.strftime("%Y-%m-%dT%H:%M")
         date_from = dt_bj.strftime("%Y-%m-%d")
