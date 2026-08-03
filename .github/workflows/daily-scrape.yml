@@ -1,54 +1,46 @@
 name: Daily scrape
-
-# Runs every day at 08:00 Asia/Shanghai (00:00 UTC)
-# Scrapes the current Shanghai weather warnings, appends new ones to
+# Runs 4×/day at 06:30, 12:30, 18:30, 00:30 Asia/Shanghai
+# Scrapes current Shanghai weather warnings, appends new ones to
 # data/warnings.json, then copies the same JSON into docs/data/ so the
 # GitHub Pages site picks it up on the next deploy.
-
 on:
   schedule:
-    - cron: "0 0 * * *"  # 00:00 UTC == 08:00 Asia/Shanghai
-  workflow_dispatch:        # allow manual trigger from the Actions tab
+    - cron: "30 22 * * *"  # 22:30 UTC == 06:30 BJ (next day)
+    - cron: "30 4 * * *"   # 04:30 UTC == 12:30 BJ
+    - cron: "30 10 * * *"  # 10:30 UTC == 18:30 BJ
+    - cron: "30 16 * * *"  # 16:30 UTC == 00:30 BJ (next day)
+  workflow_dispatch:
   push:
     paths:
       - "scraper/**"
       - ".github/workflows/daily-scrape.yml"
-
 permissions:
   contents: write
-
 jobs:
   scrape:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r scraper/requirements.txt
-
       - name: Run scraper
         run: python scraper/scraper.py
-
       - name: Mirror data to docs/
         run: |
           mkdir -p docs/data
           cp data/warnings.json docs/data/warnings.json
-          echo "now=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
-
-      - name: Write _meta.json (page-deployed timestamp)
+      - name: Write _meta.json
         run: |
           mkdir -p docs/data
           NOW_UTC=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          # ISO with Beijing (+08:00) for the user's convenience
           NOW_BJ=$(TZ='Asia/Shanghai' date +%Y-%m-%dT%H:%M:%S+08:00)
           LATEST=$(python3 -c "import json;d=json.load(open('data/warnings.json'));print(max([w.get('published_at','') for w in d] + ['']))")
           cat > data/_meta.json <<EOF
@@ -61,15 +53,13 @@ jobs:
           }
           EOF
           cp data/_meta.json docs/data/_meta.json
-          cat data/_meta.json
-
       - name: Commit if changed
         run: |
           if [[ -n "$(git status --porcelain)" ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add data/warnings.json data/_meta.json docs/data/warnings.json docs/data/_meta.json
-            git commit -m "chore(data): daily scrape update"
+            git commit -m "chore(data): auto scrape update"
             git push
           else
             echo "No changes to commit."
