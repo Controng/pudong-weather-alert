@@ -401,5 +401,18 @@
     "source": "primary",
     "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
     "raw_id": "浦东新区发布高温黄色预警|2026-08-06T12:43"
+  },
+  {
+    "headline": "浦东新区发布台风蓝色预警",
+    "warning_type": "台风",
+    "level": "蓝色",
+    "area": "浦东新区",
+    "published_at": "2026-08-07T07:00",
+    "date_from": "2026-08-07",
+    "date_to": "2026-08-08",
+    "description": "浦东新区气象台2026年08月07日07时00分发布台风蓝色预警信号：受今年第13号台风“白海豚”影响，预计7日上半夜起本区风力逐渐增大，7日夜间至10日大部分街镇将出现阵风8-9级，高层建筑和沿江沿海地区阵风9-11级，请注意防范台风对高空作业、交通出行、农业生产等的不利影响。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布台风蓝色预警|2026-08-07T07:00"
   }
 ]
