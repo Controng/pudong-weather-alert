@@ -427,5 +427,18 @@
     "source": "primary",
     "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
     "raw_id": "浦东新区更新台风黄色预警|2026-08-08T09:00"
+  },
+  {
+    "headline": "浦东新区发布雷电黄色预警",
+    "warning_type": "雷电",
+    "level": "黄色",
+    "area": "浦东新区",
+    "published_at": "2026-08-08T15:58",
+    "date_from": "2026-08-08",
+    "date_to": "2026-08-09",
+    "description": "浦东新区气象台2026年08月08日15时58分发布雷电黄色预警信号：预计未来24小时内本区大部分街镇将发生雷电活动，可能会造成雷电灾害事故，请注意防范。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布雷电黄色预警|2026-08-08T15:58"
   }
 ]
