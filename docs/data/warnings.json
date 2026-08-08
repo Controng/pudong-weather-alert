@@ -414,5 +414,18 @@
     "source": "primary",
     "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
     "raw_id": "浦东新区发布台风蓝色预警|2026-08-07T07:00"
+  },
+  {
+    "headline": "浦东新区更新台风黄色预警",
+    "warning_type": "台风",
+    "level": "黄色",
+    "area": "浦东新区",
+    "published_at": "2026-08-08T09:00",
+    "date_from": "2026-08-08",
+    "date_to": "2026-08-09",
+    "description": "浦东新区气象台2026年08月08日09时00分更新台风蓝色预警信号为台风黄色预警信号：受今年第13号台风影响，预计今天上半夜起本区大部分街镇风力可达8-10级，台风蓝色预警信号更新为台风黄色预警信号，请加强防范台风对高空作业、交通出行、农业生产等的不利影响。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区更新台风黄色预警|2026-08-08T09:00"
   }
 ]
