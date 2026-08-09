@@ -453,5 +453,18 @@
     "source": "primary",
     "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
     "raw_id": "浦东新区更新暴雨黄色预警|2026-08-09T12:58"
+  },
+  {
+    "headline": "浦东新区发布大风橙色预警",
+    "warning_type": "大风",
+    "level": "橙色",
+    "area": "浦东新区",
+    "published_at": "2026-08-09T16:05",
+    "date_from": "2026-08-09",
+    "date_to": "2026-08-10",
+    "description": "浦东新区气象台2026年08月09日16时05分发布大风橙色预警信号：受“白海豚”影响，预计未来6小时内本区中南部街镇有出现龙卷的可能，最大阵风可达12级以上，强风对户外作业、交通出行、设施农业、在建工程等有严重影响，请特别加强防范。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布大风橙色预警|2026-08-09T16:05"
   }
 ]
