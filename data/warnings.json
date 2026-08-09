@@ -440,5 +440,18 @@
     "source": "primary",
     "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
     "raw_id": "浦东新区发布雷电黄色预警|2026-08-08T15:58"
+  },
+  {
+    "headline": "浦东新区更新暴雨黄色预警",
+    "warning_type": "暴雨",
+    "level": "黄色",
+    "area": "浦东新区",
+    "published_at": "2026-08-09T12:58",
+    "date_from": "2026-08-09",
+    "date_to": "2026-08-10",
+    "description": "浦东新区气象台2026年08月09日12时58分更新暴雨红色预警信号为暴雨黄色预警信号：预计未来24小时本区大部分街镇仍将出现6小时100毫米以上的降水，暴雨红色预警信号更新为暴雨黄色预警信号，请加强防范强降雨可能引发的城市积涝及农田积水。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区更新暴雨黄色预警|2026-08-09T12:58"
   }
 ]
