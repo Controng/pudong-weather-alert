@@ -505,5 +505,31 @@
     "source": "primary",
     "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
     "raw_id": "浦东新区更新暴雨蓝色预警|2026-08-10T17:30"
+  },
+  {
+    "headline": "浦东新区发布大风蓝色预警",
+    "warning_type": "大风",
+    "level": "蓝色",
+    "area": "浦东新区",
+    "published_at": "2026-08-10T21:00",
+    "date_from": "2026-08-10",
+    "date_to": "2026-08-11",
+    "description": "浦东新区气象台2026年08月10日21时00分发布大风蓝色预警信号：预计未来24小时内，本区大部分街镇将出现阵风7-9级的大风，请注意防范大风对高空作业、交通出行、设施农业等的不利影响。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布大风蓝色预警|2026-08-10T21:00"
+  },
+  {
+    "headline": "浦东新区发布暴雨蓝色预警",
+    "warning_type": "暴雨",
+    "level": "蓝色",
+    "area": "浦东新区",
+    "published_at": "2026-08-10T21:30",
+    "date_from": "2026-08-10",
+    "date_to": "2026-08-11",
+    "description": "浦东新区气象台2026年08月10日21时30分继续发布暴雨蓝色预警信号：受第13号台风“白海豚”环流影响，预计明天上午以前，本区大部分街镇仍将出现1小时雨量40毫米以上或6小时累积降水量达70毫米以上的降水天气，请注意防范强降雨可能引发的城市积涝。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布暴雨蓝色预警|2026-08-10T21:30"
   }
 ]
