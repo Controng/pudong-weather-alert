@@ -479,5 +479,31 @@
     "source": "primary",
     "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
     "raw_id": "浦东新区更新暴雨橙色预警|2026-08-10T06:00"
+  },
+  {
+    "headline": "浦东新区更新台风蓝色预警",
+    "warning_type": "台风",
+    "level": "蓝色",
+    "area": "浦东新区",
+    "published_at": "2026-08-10T14:20",
+    "date_from": "2026-08-10",
+    "date_to": "2026-08-11",
+    "description": "浦东新区气象台2026年08月10日14时20分更新台风黄色预警信号为台风蓝色预警信号：今年第13号台风“白海豚”目前位于江西省上饶市境内，预计明天以前，本区大部分街镇仍将出现7-9级的东南大风，台风黄色预警信号更新为台风蓝色预警信号，请注意防范台风对高空作业、交通出行、农业生产等的不利影响。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区更新台风蓝色预警|2026-08-10T14:20"
+  },
+  {
+    "headline": "浦东新区更新暴雨蓝色预警",
+    "warning_type": "暴雨",
+    "level": "蓝色",
+    "area": "浦东新区",
+    "published_at": "2026-08-10T17:30",
+    "date_from": "2026-08-10",
+    "date_to": "2026-08-11",
+    "description": "浦东新区气象台2026年08月10日17时30分更新暴雨橙色预警信号为暴雨蓝色预警信号：明天上午以前，本区大部分街镇仍将出现6小时累积雨量70毫米左右的降水，暴雨橙色预警信号更新为暴雨蓝色预警信号，请注意防范强降雨可能引发的城市积涝。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区更新暴雨蓝色预警|2026-08-10T17:30"
   }
 ]
