@@ -674,5 +674,18 @@
     "source": "primary",
     "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
     "raw_id": "浦东新区发布大风蓝色预警|2026-09-03T20:08"
+  },
+  {
+    "headline": "浦东新区发布暴雨蓝色预警",
+    "warning_type": "暴雨",
+    "level": "蓝色",
+    "area": "浦东新区",
+    "published_at": "2026-09-19T01:25",
+    "date_from": "2026-09-19",
+    "date_to": "2026-09-20",
+    "description": "浦东新区气象台2026年09月19日01时25分发布暴雨蓝色预警信号：受较强的降水云团影响，预计未来6小时本区高桥等北部街镇将出现一小时雨量40毫米以上的短时强降水天气，请注意防范局地极端强降雨引发的各类灾害。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布暴雨蓝色预警|2026-09-19T01:25"
   }
 ]
