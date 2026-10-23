@@ -713,5 +713,18 @@
     "source": "primary",
     "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
     "raw_id": "浦东新区发布雷电黄色预警|2026-09-27T09:30"
+  },
+  {
+    "headline": "浦东新区发布台风蓝色预警",
+    "warning_type": "台风",
+    "level": "蓝色",
+    "area": "浦东新区",
+    "published_at": "2026-10-23T09:00",
+    "date_from": "2026-10-23",
+    "date_to": "2026-10-24",
+    "description": "浦东新区气象台2026年10月23日09时00分发布台风蓝色预警信号：受今年第30号台风“蔷琵”影响，预计本区今天下午起风力逐渐增大，大部分街镇将出现6-8级阵风，高层建筑及沿江沿海地区阵风8-9级，请注意防范台风对高空作业、交通出行、农业生产等的不利影响。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布台风蓝色预警|2026-10-23T09:00"
   }
 ]
