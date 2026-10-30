@@ -752,5 +752,18 @@
     "source": "primary",
     "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
     "raw_id": "浦东新区发布大风蓝色预警|2026-10-25T10:00"
+  },
+  {
+    "headline": "浦东新区发布大雾黄色预警",
+    "warning_type": "大雾",
+    "level": "黄色",
+    "area": "浦东新区",
+    "published_at": "2026-10-30T22:01",
+    "date_from": "2026-10-30",
+    "date_to": "2026-10-31",
+    "description": "浦东新区气象台2026年10月30日22时01分发布大雾黄色预警信号：预计今天夜里到明天早晨本区大部分街镇将出现能见度小于500米的雾，局部地区能见度小于200米，请注意防范低能见度对道路交通的不利影响。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布大雾黄色预警|2026-10-30T22:01"
   }
 ]
