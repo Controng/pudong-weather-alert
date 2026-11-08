@@ -791,5 +791,18 @@
     "source": "primary",
     "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
     "raw_id": "浦东新区发布大风蓝色预警|2026-11-04T10:14"
+  },
+  {
+    "headline": "浦东新区发布大风蓝色预警",
+    "warning_type": "大风",
+    "level": "蓝色",
+    "area": "浦东新区",
+    "published_at": "2026-11-08T21:00",
+    "date_from": "2026-11-08",
+    "date_to": "2026-11-09",
+    "description": "浦东新区气象台2026年11月08日21时00分发布大风蓝色预警信号：受较强的冷空气影响，预计未来24小时内本区大部分街镇将出现阵风7-8级，沿江沿海地区8-9级的大风，请注意防范大风对高空作业、交通出行、设施农业等的不利影响。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布大风蓝色预警|2026-11-08T21:00"
   }
 ]
