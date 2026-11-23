@@ -843,5 +843,18 @@
     "source": "primary",
     "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
     "raw_id": "浦东新区发布大风蓝色预警|2026-11-18T08:00"
+  },
+  {
+    "headline": "浦东新区发布寒潮蓝色预警",
+    "warning_type": "寒潮",
+    "level": "蓝色",
+    "area": "浦东新区",
+    "published_at": "2026-11-23T17:00",
+    "date_from": "2026-11-23",
+    "date_to": "2026-11-24",
+    "description": "浦东新区气象台2026年11月23日17时00分发布寒潮蓝色预警信号：受北方强冷空气影响，预计未来48小时内本区大部分街镇最低气温降幅8℃左右，25日最低气温0-2℃，请注意防范大风、强降温及持续低温对交通、住建、农业等的不利影响。",
+    "source": "primary",
+    "source_url": "https://d1.weather.com.cn/shweather/alarm.json",
+    "raw_id": "浦东新区发布寒潮蓝色预警|2026-11-23T17:00"
   }
 ]
